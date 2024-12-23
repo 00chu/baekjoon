@@ -1,6 +1,10 @@
 class Solution {
-     public static boolean check(String s1, String s2) {
+    static boolean[] visited;
+    static int answer = 51;
+
+    public static boolean check(String s1, String s2) {
         int count = 0;
+
         for (int i = 0; i < s1.length(); i++) {
             if (s1.charAt(i) != s2.charAt(i)) {
                 count++;
@@ -13,39 +17,31 @@ class Solution {
             return false;
         }
         return true;
-    }
-    public int solution(String begin, String target, String[] words) {
-        int answer = 0;
-        
-        boolean flag1 = false;
-
-        for (int i = 0; i < words.length; i++) {
-            if (words[i].equals(target)) {
-                flag1 = true;
-            }
+     }
+     public static void dfs(String begin, String target, String[] words, int num) {
+        if (begin.equals(target)) {
+            answer = Math.min(answer, num);
+            return;
         }
 
-        if (flag1) {
-            for (int i = 0; i < words.length; i++) {
-                if (check(begin, words[i])) {
-                    begin = words[i];
-                    answer++;
-                }
-                if (check(words[i], target)) {
-                    answer++;
-                    break;
-                }
-
-                if (begin.equals(target)) {
-                    break;
-                } else if (i == words.length - 1) {
-                    if (!begin.equals(target)) {
-                        answer = 0;
-                        break;
-                    }
-                }
+        for (int i = 0; i < words.length; i++) {
+            if (visited[i]) {
+                continue;
             }
-        } else {
+
+            if (check(begin, words[i])) {
+                visited[i] = true;
+                dfs(words[i], target, words, num + 1);
+                visited[i] = false;
+            }
+        }
+    }
+    public int solution(String begin, String target, String[] words) {
+        visited = new boolean[words.length];
+
+        dfs(begin, target, words, 0);
+        
+        if (answer == 51) {
             answer = 0;
         }
         
