@@ -4,6 +4,34 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 public class Main {
+    public static HashMap<Integer, Integer> map;
+
+    public static void delete(PriorityQueue<Integer> queue){
+        while (!queue.isEmpty()) {
+            int num = queue.poll();
+            int temp = map.getOrDefault(num, 0);
+            if (temp != 0) {
+                if (temp == 1) {
+                    map.remove(num);
+                } else{
+                    map.put(num, temp - 1);
+                }
+                break;
+            }
+        }
+    }
+
+    public static int print(PriorityQueue<Integer> queue){
+        while (!queue.isEmpty()) {
+            int num = queue.poll();
+            int temp = map.getOrDefault(num, 0);
+            if (temp != 0) {
+                return num;
+            }
+        }
+        return 0;
+    }
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
@@ -16,7 +44,7 @@ public class Main {
 
             PriorityQueue<Integer> maxQueue = new PriorityQueue<>(Comparator.reverseOrder());
             PriorityQueue<Integer> minQueue = new PriorityQueue<>();
-            HashMap<Integer, Integer> map = new HashMap<>();
+            map = new HashMap<>();
 
             for (int j = 0; j < k; j++) {
                 StringTokenizer st = new StringTokenizer(br.readLine());
@@ -30,31 +58,9 @@ public class Main {
                     map.put(n, map.getOrDefault(n, 0) + 1);
                 } else if (!map.isEmpty()) {
                     if (n == 1) {
-                        while (!maxQueue.isEmpty()) {
-                            int num = maxQueue.poll();
-                            int temp = map.getOrDefault(num, 0);
-                            if (temp != 0) {
-                                if (temp == 1) {
-                                    map.remove(num);
-                                } else{
-                                    map.put(num, temp - 1);
-                                }
-                                break;
-                            }
-                        }
+                        delete(maxQueue);
                     } else {
-                        while (!minQueue.isEmpty()) {
-                            int num = minQueue.poll();
-                            int temp = map.getOrDefault(num, 0);
-                            if (temp != 0) {
-                                if (temp == 1) {
-                                    map.remove(num);
-                                } else {
-                                    map.put(num, temp - 1);
-                                }
-                                break;
-                            }
-                        }
+                       delete(minQueue);
                     }
                 }
             }
@@ -62,23 +68,9 @@ public class Main {
             if (map.isEmpty()) {
                 sb.append("EMPTY\n");
             } else {
-                while (!maxQueue.isEmpty()) {
-                    int num = maxQueue.poll();
-                    int temp = map.getOrDefault(num, 0);
-                    if (temp != 0) {
-                        sb.append(num);
-                        break;
-                    }
-                }
+                sb.append(print(maxQueue));
                 sb.append(" ");
-                while (!minQueue.isEmpty()) {
-                    int num = minQueue.poll();
-                    int temp = map.getOrDefault(num, 0);
-                    if (temp != 0) {
-                        sb.append(num);
-                        break;
-                    }
-                }
+                sb.append(print(minQueue));
                 sb.append("\n");
             }
         }
