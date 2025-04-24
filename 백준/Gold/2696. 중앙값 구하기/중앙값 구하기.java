@@ -32,8 +32,8 @@ public class Main {
 
                 while (st.hasMoreTokens()) {
                     list.add(Integer.parseInt(st.nextToken()));
-                    Collections.sort(list);
                     if (list.size() % 2 == 1) {
+                        Collections.sort(list);
                         sb.append(list.get(index++)).append(" ");
                     }
                 }
