@@ -12,35 +12,46 @@ public class Main {
 
         for (int i = 0; i < T; i++) {
             int M = Integer.parseInt(br.readLine());
-            int num = (M + 1) / 2;
 
-            ArrayList<Integer> list = new ArrayList<>();
+            PriorityQueue<Integer> maxQueue = new PriorityQueue<>();
+            PriorityQueue<Integer> minQueue = new PriorityQueue<>(Comparator.reverseOrder());
 
-            sb.append(num).append("\n");
+            sb.append((M + 1) / 2).append("\n");
+            int index = 0;
 
             int lines = M / 10;
             if (M % 10 != 0) {
                 lines++;
             }
 
-            int index = 0;
             for (int j = 0; j < lines; j++) {
-                if (j != 0 && index % 10 == 0) {
-                    sb.append("\n");
-                }
                 StringTokenizer st = new StringTokenizer(br.readLine());
 
                 while (st.hasMoreTokens()) {
-                    list.add(Integer.parseInt(st.nextToken()));
-                    if (list.size() % 2 == 1) {
-                        Collections.sort(list);
-                        sb.append(list.get(index++)).append(" ");
+                    if (minQueue.size() == maxQueue.size()) {
+                        maxQueue.offer(Integer.parseInt(st.nextToken()));
+                    } else {
+                        minQueue.offer(Integer.parseInt(st.nextToken()));
+                    }
+
+                    if (!minQueue.isEmpty() && !maxQueue.isEmpty()) {
+                        if (minQueue.peek() > maxQueue.peek()) {
+                            minQueue.add(maxQueue.poll());
+                            maxQueue.add(minQueue.poll());
+                        }
+                    }
+                    index++;
+
+                    if (index % 2 == 1) {
+                        sb.append(maxQueue.peek()).append(" ");
+                    }
+                    if (index % 20 == 0) {
+                        sb.append("\n");
                     }
                 }
             }
             sb.append("\n");
         }
-
         System.out.println(sb);
     }
 }
