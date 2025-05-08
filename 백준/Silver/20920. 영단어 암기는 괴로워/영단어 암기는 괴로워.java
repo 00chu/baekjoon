@@ -28,12 +28,11 @@ public class Main {
             return count.get(o2) - count.get(o1);
         });
 
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringBuilder sb = new StringBuilder();
 
         for (String s : list) {
-            bw.write(s + "\n");
+            sb.append(s).append("\n");
         }
-        bw.flush();
-        bw.close();
+        System.out.println(sb);
     }
 }
