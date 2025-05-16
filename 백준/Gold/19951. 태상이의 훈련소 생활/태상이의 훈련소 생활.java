@@ -19,6 +19,7 @@ public class Main {
             high[i] = Integer.parseInt(st.nextToken());
         }
 
+        int[] orders = new int[N + 1];
         for (int i = 0; i < M; i++) {
             st = new StringTokenizer(br.readLine());
 
@@ -26,24 +27,19 @@ public class Main {
             int b = Integer.parseInt(st.nextToken());
             int k = Integer.parseInt(st.nextToken());
 
-            if (k >= 0) {
-                for (int j = a - 1; j < b; j++) {
-                    high[j] += k;
-                }
-            } else {
-                for (int j = a - 1; j < b; j++) {
-                    high[j] += k;
-                }
-            }
+            orders[a - 1] += k;
+            orders[b] -= k;
         }
 
 
         StringBuilder sb = new StringBuilder();
+        int num = 0;
 
         for (int i = 0; i < N; i++) {
-            sb.append(high[i]).append(" ");
+            num += orders[i];
+            sb.append(high[i] + num).append(" ");
         }
-
+        
         System.out.println(sb);
     }
 }
