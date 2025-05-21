@@ -21,11 +21,6 @@ public class Main {
             max = Math.max(max, lines[i]);
         }
 
-        if (K == 1) {
-            System.out.println(lines[0] / N);
-            return;
-        }
-
         max++;
 
         while (min < max) {
