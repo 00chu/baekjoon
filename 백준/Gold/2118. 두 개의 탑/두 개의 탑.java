@@ -8,24 +8,20 @@ public class Main {
 
         int N = Integer.parseInt(br.readLine());
 
-        int[] sum = new int[N];
+        int[] sum = new int[N + 1];
 
-        for (int i = 0; i < N; i++) {
-            if (i == 0) {
-                sum[i] = Integer.parseInt(br.readLine());
-            } else {
-                sum[i] = sum[i - 1] + Integer.parseInt(br.readLine());
-            }
+        for (int i = 1; i <= N; i++) {
+            sum[i] = sum[i - 1] + Integer.parseInt(br.readLine());
         }
 
         int max = Integer.MIN_VALUE;
 
-        for (int i = 0; i < N; i++) {
-            for (int j = i; j < N; j++) {
+        for (int i = 1; i <= N; i++) {
+            for (int j = i + 1; j <= N; j++) {
                 int num1 = sum[j] - sum[i];
-                int num2 = sum[N - 1] - num1;
+                int num2 = sum[N] - num1;
                 max = Math.max(max, Math.min(num1, num2));
-                if (num1 > num2) {
+                if (num1 >= num2) {
                     break;
                 }
             }
