@@ -21,23 +21,22 @@ public class Main {
             return;
         }
         for (int i = 0; i < list.length; i++) {
-            stack.push(list[i]);
-
-            while (stack.size() > 3
-                    && Objects.equals(stack.get(stack.size() - 4), "P")
-                    && Objects.equals(stack.get(stack.size() - 3), "P")
-                    && Objects.equals(stack.get(stack.size() - 2), "A")
-                    && Objects.equals(stack.peek(), "P")) {
-                stack.pop();
-                stack.pop();
-                stack.pop();
-                if (stack.size() == 1 && i == list.length - 1) {
+            if (Objects.equals(list[i], "P")) {
+                stack.push(list[i]);
+            } else {
+                if (stack.size() >= 2 && i < list.length - 1
+                        && Objects.equals(stack.get(stack.size() - 1), "P")
+                        && Objects.equals(stack.get(stack.size() - 2), "P")
+                        && Objects.equals(list[i + 1], "P")) {
                     stack.pop();
+                    i++;
+                }else{
+                    stack.push("A");
                 }
             }
         }
 
-        if (stack.isEmpty()) {
+        if (stack.size() == 1) {
             System.out.println("PPAP");
         } else {
             System.out.println("NP");
