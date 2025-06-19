@@ -10,11 +10,8 @@ public class Main {
 
     public static void dfs(int N, int M, int depth, int index) {
         if (depth == M) {
-            int[] temp = sequence.clone();
-            Arrays.sort(temp);
-
             for (int i = 0; i < M; i++) {
-                sb.append(temp[i]).append(" ");
+                sb.append(sequence[i]).append(" ");
             }
 
             sb.append("\n");
