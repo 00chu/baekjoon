@@ -1,43 +1,42 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.HashSet;
 import java.util.StringTokenizer;
 
 public class Main {
-    static HashSet<String> set;
+    static boolean[] alphabet;
     static String[][] list;
     static int result = 0;
 
-    public static void dfs(int R, int C, int row, int column) {
-        if (set.contains(list[row][column])) {
-            result = Math.max(result, set.size());
+    public static void dfs(int R, int C, int row, int column, int count) {
+        if (alphabet[list[row][column].charAt(0) - 65]) {
+            result = Math.max(result, count);
         } else {
-            set.add(list[row][column]);
+            alphabet[list[row][column].charAt(0) - 65] = true;
 
             if (R != 1) {
                 if (0 == row) {
-                    dfs(R, C, row + 1, column);
+                    dfs(R, C, row + 1, column, count + 1);
                 } else if (row == R - 1) {
-                    dfs(R, C, row - 1, column);
+                    dfs(R, C, row - 1, column, count + 1);
                 } else {
-                    dfs(R, C, row - 1, column);
-                    dfs(R, C, row + 1, column);
+                    dfs(R, C, row - 1, column, count + 1);
+                    dfs(R, C, row + 1, column, count + 1);
                 }
             }
 
             if (C != 1) {
                 if (0 == column) {
-                    dfs(R, C, row, column + 1);
+                    dfs(R, C, row, column + 1, count + 1);
                 } else if (column == C - 1) {
-                    dfs(R, C, row, column - 1);
+                    dfs(R, C, row, column - 1, count + 1);
                 } else {
-                    dfs(R, C, row, column - 1);
-                    dfs(R, C, row, column + 1);
+                    dfs(R, C, row, column - 1, count + 1);
+                    dfs(R, C, row, column + 1, count + 1);
                 }
             }
 
-            set.remove(list[row][column]);
+            alphabet[list[row][column].charAt(0) - 65] = false;
         }
     }
 
@@ -48,7 +47,7 @@ public class Main {
 
         int R = Integer.parseInt(st.nextToken());
         int C = Integer.parseInt(st.nextToken());
-        
+
         if (R == 1 && C == 1) {
             System.out.println(1);
             return;
@@ -60,10 +59,10 @@ public class Main {
             list[i] = br.readLine().split("");
         }
 
-        set = new HashSet<>();
-        
-        dfs(R, C, 0, 0);
-        
+        alphabet = new boolean[26];
+
+        dfs(R, C, 0, 0, 0);
+
         System.out.println(result);
     }
 }
