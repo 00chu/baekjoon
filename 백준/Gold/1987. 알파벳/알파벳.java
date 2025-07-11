@@ -10,12 +10,6 @@ public class Main {
     static int result = 0;
 
     public static void dfs(int R, int C, int row, int column) {
-        if (R == 1 && C == 1){
-            set.add(list[row][column]);
-            result = Math.max(result, set.size());
-            return;
-        }
-        
         if (set.contains(list[row][column])) {
             result = Math.max(result, set.size());
         } else {
@@ -54,6 +48,11 @@ public class Main {
 
         int R = Integer.parseInt(st.nextToken());
         int C = Integer.parseInt(st.nextToken());
+        
+        if (R == 1 && C == 1) {
+            System.out.println(1);
+            return;
+        }
 
         list = new String[R][C];
 
@@ -62,9 +61,9 @@ public class Main {
         }
 
         set = new HashSet<>();
-
+        
         dfs(R, C, 0, 0);
-
+        
         System.out.println(result);
     }
 }
