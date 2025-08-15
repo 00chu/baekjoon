@@ -47,12 +47,16 @@ public class Main {
                     continue;
                 }
 
-                if (Objects.equals(map[r][c], "0")&&!visited[r][c][temp.count]) {
+                if (Objects.equals(map[r][c], "0")) {
+                    if (!visited[r][c][temp.count]) {
                         visited[r][c][temp.count] = true;
                         queue.offer(new Coordinate(r, c, temp.length + 1, temp.count));
-                } else if (Objects.equals(map[r][c], "1") && temp.count < K && !visited[r][c][temp.count + 1]) {
-                    visited[r][c][temp.count + 1] = true;
-                    queue.offer(new Coordinate(r, c, temp.length + 1, temp.count + 1));
+                    }
+                } else {
+                    if (temp.count < K && !visited[r][c][temp.count + 1]) {
+                        visited[r][c][temp.count + 1] = true;
+                        queue.offer(new Coordinate(r, c, temp.length + 1, temp.count + 1));
+                    }
                 }
             }
         }
